@@ -81,6 +81,7 @@ Runtime coordination surface.
 
 Use it for:
 
+- User feedback intake (FEEDBACK_LOG)
 - Backlog ordering
 - Roadmap and phase planning
 - Tickets and bugs
@@ -91,6 +92,7 @@ Use it for:
 Important distinction:
 
 ```text
+FEEDBACK_LOG.md = raw intake funnel
 BACKLOG.md = what should be considered next
 Ticket/Bug/Requirement/Phase = executable context packet
 ```
@@ -164,6 +166,7 @@ Use these when creating new work artifacts:
 - `BUG.md`
 - `PHASE.md`
 - `DETAIL_DESIGN.md`
+- `FEEDBACK.md`
 - `TEST_VERIFICATION.md`
 - `VALIDATION_MATRIX.md`
 - `DOCS_REVIEW.md`
@@ -176,6 +179,7 @@ Master-doc templates also live here:
 - `ARCHITECTURE.md`
 - `API.md`
 - `ERD.md`
+- `SDD.md`
 
 ### `engineering/`
 
@@ -217,7 +221,7 @@ Use it for:
 | Hydration | `AGENTS.md`, `CONTEXT.md`, `work/BACKLOG.md`, relevant standards, active work item |
 | Detail Design | `templates/DETAIL_DESIGN.md`, ticket/bug, relevant master docs |
 | Execution & Test | active ticket/bug, `standards/TESTING.md`, `standards/VALIDATION.md` |
-| Reconciliation | requirements, architecture, API, ERD, decisions, docs review |
+| Reconciliation | requirements, architecture, API, ERD, SDD, decisions, docs review |
 | Dehydration | `CONTEXT.md`, `BACKLOG.md`, `VALIDATION_MATRIX.md`, active work status |
 
 ## Status Model

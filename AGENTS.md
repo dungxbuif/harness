@@ -129,6 +129,7 @@ A task is not complete until:
 - New decisions were logged as ADRs when needed.
 - `docs/CONTEXT.md` reflects current state and next steps.
 - `docs/work/BACKLOG.md` and work item status were updated.
+- `docs/releases/CHANGELOG.md` or release notes were updated with the user-facing or framework changes.
 
 ## Rule 10: Loop Guard
 

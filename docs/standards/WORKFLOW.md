@@ -20,6 +20,13 @@ Agents MUST:
 - Promote non-tiny backlog items into a requirement slice, phase, ticket, or bug before execution.
 - Avoid assuming all tickets must finish before bugs or new requirements. Runtime priority can reorder work.
 
+## User Feedback Intake
+
+Raw user feedback, feature requests, and bug reports from users must be recorded in `docs/work/FEEDBACK_LOG.md` before they can enter the `BACKLOG.md`.
+1. **Intake:** Log the raw text in `FEEDBACK_LOG.md`.
+2. **Triage:** Classify as `Bug`, `Feature`, `Enhancement`, or `Noise`.
+3. **Conversion:** Only triaged items that are actionable can be converted into a `BUG.md` or `TICKET.md` and added to `BACKLOG.md`. All converted artifacts must link back to their origin Feedback ID.
+
 ## Intake Lanes
 
 Every backlog item MUST have one lane:
@@ -119,6 +126,7 @@ Reconciliation MUST include:
 - [ ] Architecture docs checked
 - [ ] API docs checked
 - [ ] ERD/data docs checked
+- [ ] SDD docs checked (Detail Design changes synchronized to SDD)
 - [ ] ADR need checked
 - [ ] Docs review completed
 
