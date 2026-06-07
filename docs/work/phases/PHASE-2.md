@@ -30,7 +30,7 @@ trace:
   release_notes: TBD
 ---
 
-# Phase: PHASE-2 Phát triển Harness CLI (Bộ xác thực tự động)
+# Phase: PHASE-2 Develop Harness CLI (Automated Hard Gates) & Security Guardrails
 
 ## Field Ownership
 
@@ -44,7 +44,7 @@ trace:
 - Status: ready
 - Owner: human
 - Created: 2026-06-05
-- Updated: 2026-06-05
+- Updated: 2026-06-07
 
 ## Trace Links
 
@@ -60,26 +60,29 @@ trace:
 
 ## Goal
 
-Phát triển công cụ CLI `harness` nhằm giải quyết dứt điểm "Hệ thống danh dự" (Honor System) của LLM. Script vật lý này sẽ parse các cấu trúc YAML frontmatter đã định nghĩa và hoạt động như một "Hard Gate" (Chốt chặn cứng), không cho phép AI Agent vượt rào hoặc thực thi sai quy trình SDLC.
+Develop the `harness` CLI tool to definitively solve the LLM "Honor System". This physical script will parse the defined YAML frontmatter structures and act as a "Hard Gate", preventing AI Agents from bypassing or executing the SDLC incorrectly. Additionally, establish strict Security Guardrails to govern AI behavior when writing code.
 
 ## Scope
 
-- Thiết kế và phát triển `harness` CLI (có thể viết bằng Bash, Python hoặc Node.js).
-- Implement lệnh `harness check-ticket <id>`:
-  - Quét file YAML của ticket.
-  - Xác nhận có đủ Trace links (Forward/Backward links).
-  - Xác nhận Human đã set `Approved: true` (nếu bắt buộc).
-  - Trả về mã lỗi (exit 1) nếu các điều kiện trên không được thỏa mãn.
-- Implement lệnh `harness guard`:
-  - Hook tích hợp vào quá trình chạy test (Execution & Test phase).
-  - Đếm số lần chạy test/vòng lặp sửa lỗi của AI.
-  - Nếu số lần test fail vượt quá giới hạn (ví dụ: > 5 lần), ném lỗi khóa màn hình, ép AI ngừng session và chờ Human review.
-- Cập nhật tài liệu (README/AGENTS.md) để buộc AI phải gọi các lệnh CLI này trong Phase 2 (Detail Design) và Phase 3 (Execution).
+- Design and develop the `harness` CLI (can be written in Bash, Python, or Node.js).
+- Implement the `harness check-ticket <id>` command:
+  - Scan the ticket's YAML file.
+  - Verify the presence of sufficient Trace links (Forward/Backward links).
+  - Verify that Human has set `Approved: true` (if required).
+  - Return an error code (`exit 1`) if the above conditions are not met.
+- Implement the `harness guard` command:
+  - Hook integrated into the testing process (Execution & Test phase).
+  - Count the number of test runs/AI bug fix loops.
+  - If the number of test failures exceeds the limit (e.g., > 5 times), throw an error locking the screen, forcing the AI to stop the session and wait for Human review.
+- Update documentation (`README`/`AGENTS.md`) to force AI to call these CLI commands in Phase 2 (Detail Design) and Phase 3 (Execution).
+- **Security Guardrails Implementation**:
+  - Create the `docs/standards/SECURITY.md` standard for strict security compliance.
+  - Integrate language-specific security checks and skills (Go, Node.js, Python) into the `DETAIL_DESIGN.md` phase.
 
 ## Out Of Scope
 
-- Triển khai Harness Orchestrator hoàn chỉnh quản lý đa agent.
-- Các tính năng CI/CD tự động trên server. (Chỉ tập trung vào IDE/Local hook).
+- Implementing a complete Harness Orchestrator for multi-agent management.
+- Automated CI/CD features on a server (Focusing only on IDE/Local hooks).
 
 ## Tickets And Bugs
 
@@ -87,28 +90,32 @@ Phát triển công cụ CLI `harness` nhằm giải quyết dứt điểm "Hệ
 | --- | --- | --- | --- | --- |
 | TBD | Ticket | Implement `harness check-ticket` | draft | TBD |
 | TBD | Ticket | Implement `harness guard` | draft | TBD |
-| TBD | Ticket | Cập nhật AGENTS.md tích hợp CLI | draft | TBD |
+| TBD | Ticket | Update AGENTS.md to integrate CLI | draft | TBD |
+| TBD | Ticket | Create Security Guardrails standard (`SECURITY.md`) | draft | TBD |
+| TBD | Ticket | Integrate language-specific security skills into `DETAIL_DESIGN.md` | draft | TBD |
 
 ## Dependencies
 
-- Phụ thuộc vào cấu trúc YAML Frontmatter đã được chuẩn hóa tại Phase 1.
-- Node.js hoặc Python (tuỳ thuộc vào ngôn ngữ được chọn để parse YAML dễ dàng).
+- Depends on the YAML Frontmatter structure standardized in Phase 1.
+- Node.js or Python (depending on the language chosen for easy YAML parsing).
 
 ## Risks
 
-- Nếu AI vẫn có quyền "sửa" file script CLI hoặc bỏ qua việc gọi lệnh CLI, thì hệ thống vẫn tồn tại lỗ hổng. (Cần cấu hình Read-Only hoặc IDE level hook).
-- Khả năng tương thích YAML parser trên các hệ điều hành khác nhau (Windows, MacOS, Linux) nếu dùng Bash thuần.
+- If AI still has permission to "edit" the CLI script files or bypass calling the CLI commands, vulnerabilities remain. (Needs Read-Only configuration or IDE-level hooks).
+- YAML parser compatibility across different operating systems (Windows, MacOS, Linux) if using pure Bash.
 
 ## Success Criteria
 
-- Có thể chặn thành công một Agent đang cố gắng viết code khi `DETAIL_DESIGN` chưa được duyệt.
-- Chặn thành công Agent đang rơi vào vòng lặp fix lỗi (Infinite Loop) ở chu kỳ thứ 6.
-- Scripts chạy được trực tiếp trên Local Repo mà không đòi hỏi cài đặt quá phức tạp.
+- Successfully block an Agent attempting to write code when `DETAIL_DESIGN` has not been approved.
+- Successfully block an Agent caught in a fix loop (Infinite Loop) at the 6th cycle.
+- Scripts can run directly on the Local Repo without overly complex installation.
+- AI correctly references `SECURITY.md` and runs language-specific security checks during Detail Design.
 
 ## Verification Plan
 
-- Chạy thử nghiệm giả lập một Agent cố tình sinh code mà không có Approval -> `harness check-ticket` phải văng lỗi `exit 1`.
-- Chạy thử nghiệm một Agent tạo vòng lặp test fail 6 lần liên tiếp -> `harness guard` phải ném lỗi block luồng thực thi.
+- Simulate an Agent intentionally generating code without Approval -> `harness check-ticket` must throw an `exit 1` error.
+- Simulate an Agent creating a continuous 6-time test failure loop -> `harness guard` must throw a block execution error.
+- Verify an Agent applies security constraints appropriately during a mock Detail Design task.
 
 ## Gate Checklist
 
